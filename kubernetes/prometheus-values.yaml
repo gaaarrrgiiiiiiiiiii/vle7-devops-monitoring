@@ -1,0 +1,41 @@
+alertmanager:
+  enabled: true
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+
+server:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+kube-state-metrics:
+  enabled: false
+
+prometheus-node-exporter:
+  enabled: false
+
+prometheus-pushgateway:
+  enabled: false
+
+serverFiles:
+  alerting_rules.yml:
+    groups:
+      - name: vle7-test-alerts
+        rules:
+          - alert: VLE7TestAlert
+            expr: vector(1)
+            for: 1m
+            labels:
+              severity: warning
+            annotations:
+              summary: "VLE7 test alert"
+              description: "Test alert for the VLE-7 monitoring experiment."
